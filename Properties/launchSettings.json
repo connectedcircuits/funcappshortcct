@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "FuncAppShortCircuitSvc": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7139",
+      "launchBrowser": false
+    }
+  }
+}
