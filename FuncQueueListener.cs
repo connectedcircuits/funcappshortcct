@@ -3,13 +3,14 @@ using System.Text;
 using System.Text.Json;
 using Azure.Storage.Queues;
 using Azure.Storage.Queues.Models;
-using FuncAppShortCircuitSvc.Models;
+using FuncTriggerManagerSvc.Models;
+using FuncTriggerManagerSvc.Utils;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace FuncAppShortCircuitSvc
+namespace FuncTriggerManagerSvc
 {
     public class FuncQueueListener
     {
@@ -58,11 +59,11 @@ namespace FuncAppShortCircuitSvc
             try
             {
                 // Get the function app details
-                var functionApp = await Utils.WebAppConfigurator.GetFunctionAsync(subscriptionId!, shortCircuitMsg.RessourceGroupName,
+                var functionApp = await WebAppConfigurator.GetFunctionAsync(subscriptionId!, shortCircuitMsg.RessourceGroupName,
                     shortCircuitMsg.FunctionAppName, _logger);
 
                 // set the function status based on the message
-                await Utils.WebAppConfigurator.FunctionConditionAsync(functionApp, shortCircuitMsg.FunctionName,
+                await WebAppConfigurator.FunctionConditionAsync(functionApp, shortCircuitMsg.FunctionName,
                     shortCircuitMsg.DisableFunction, _logger);
 
                 // If disable function is true, republish the message to the queue if the disable period is greater than 0

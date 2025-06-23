@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FuncAppShortCircuitSvc.Utils
+namespace FuncTriggerManagerSvc.Utils
 {
 
     /// <summary>

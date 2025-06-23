@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FuncAppShortCircuitSvc.Models
+namespace FuncTriggerManagerSvc.Models
 {
     internal class ShortCircuitMsg
     {
