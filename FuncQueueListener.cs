@@ -36,8 +36,18 @@ namespace FuncTriggerManagerSvc
                 _logger.LogError("StorageConnection is not configured or is null/empty.");
                 throw new InvalidOperationException("StorageConnection configuration is missing.");
             }
-            string? subscriptionId = _configuration.GetValue<string>("Azure:SubscriptionId");
+            string? subscriptionId = _configuration.GetValue<string>("AzureSubscriptionId");
+            if (string.IsNullOrEmpty(subscriptionId))
+            {
+                _logger.LogError("Azure Subscription Id is not configured or is null/empty.");
+                throw new InvalidOperationException("AzureSubscriptionId configuration is missing.");
+            }
             string? queueName = _configuration.GetValue<string>("QueueName");
+            if (string.IsNullOrEmpty(queueName))
+            {
+                _logger.LogError("QueueName is not configured or is null/empty.");
+                throw new InvalidOperationException("QueueName configuration is missing.");
+            }
 
             // Access the message conten
             string messageContent = queueMessage.MessageText;
