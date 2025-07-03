@@ -51,11 +51,11 @@ namespace FuncTriggerManagerSvc
 
             // Access the message conten
             string messageContent = queueMessage.MessageText;
-            var shortCircuitMsg = new ShortCircuitMsg();
+            var shortCircuitMsg = new FuncTriggerMsg();
             _logger.LogInformation($"Message content: {messageContent}");
             try
             {
-                shortCircuitMsg = JsonConvert.DeserializeObject<ShortCircuitMsg>(messageContent);
+                shortCircuitMsg = JsonConvert.DeserializeObject<FuncTriggerMsg>(messageContent);
                 _logger.LogInformation($"Deserialized message for function: {shortCircuitMsg!.FunctionAppName}/{shortCircuitMsg!.FunctionName}");
 
             }
