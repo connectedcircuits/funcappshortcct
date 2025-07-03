@@ -20,7 +20,7 @@ namespace FuncTriggerManagerSvc.Utils
     {
         internal static async Task<WebSiteResource> GetFunctionAsync(string subscriptionId, string resourceGroupName, string functionAppName, ILogger logger)
         {
-            logger.LogInformation($"Getting function app {functionAppName} in resource group {resourceGroupName} under subscription {subscriptionId}");
+            logger.LogInformation($"Getting function app '{functionAppName}' in resource group '{resourceGroupName}' under subscription '{subscriptionId}'");
             var client = new ArmClient(new DefaultAzureCredential());
 
             try

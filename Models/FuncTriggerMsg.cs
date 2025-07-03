@@ -11,7 +11,7 @@ namespace FuncTriggerManagerSvc.Models
         public string FunctionAppName { get; set; } = default!;
         public string FunctionName { get; set; } = default!;
 
-        public string RessourceGroupName { get; set; } = default!;
+        public string ResourceGroupName { get; set; } = default!;
         public bool DisableFunction { get; set; }
 
         public int DisablePeriodMinutes { get; set; }
