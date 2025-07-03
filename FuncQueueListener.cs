@@ -69,7 +69,7 @@ namespace FuncTriggerManagerSvc
             try
             {
                 // Get the function app details
-                var functionApp = await WebAppConfigurator.GetFunctionAsync(subscriptionId!, shortCircuitMsg.RessourceGroupName,
+                var functionApp = await WebAppConfigurator.GetFunctionAsync(subscriptionId!, shortCircuitMsg.ResourceGroupName,
                     shortCircuitMsg.FunctionAppName, _logger);
 
                 // set the function status based on the message
