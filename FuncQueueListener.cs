@@ -3,13 +3,14 @@ using System.Text;
 using System.Text.Json;
 using Azure.Storage.Queues;
 using Azure.Storage.Queues.Models;
-using FuncAppShortCircuitSvc.Models;
+using FuncTriggerManagerSvc.Models;
+using FuncTriggerManagerSvc.Utils;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace FuncAppShortCircuitSvc
+namespace FuncTriggerManagerSvc
 {
     public class FuncQueueListener
     {
@@ -35,16 +36,26 @@ namespace FuncAppShortCircuitSvc
                 _logger.LogError("StorageConnection is not configured or is null/empty.");
                 throw new InvalidOperationException("StorageConnection configuration is missing.");
             }
-            string? subscriptionId = _configuration.GetValue<string>("Azure:SubscriptionId");
+            string? subscriptionId = _configuration.GetValue<string>("AzureSubscriptionId");
+            if (string.IsNullOrEmpty(subscriptionId))
+            {
+                _logger.LogError("Azure Subscription Id is not configured or is null/empty.");
+                throw new InvalidOperationException("AzureSubscriptionId configuration is missing.");
+            }
             string? queueName = _configuration.GetValue<string>("QueueName");
+            if (string.IsNullOrEmpty(queueName))
+            {
+                _logger.LogError("QueueName is not configured or is null/empty.");
+                throw new InvalidOperationException("QueueName configuration is missing.");
+            }
 
             // Access the message conten
             string messageContent = queueMessage.MessageText;
-            var shortCircuitMsg = new ShortCircuitMsg();
+            var shortCircuitMsg = new FuncTriggerMsg();
             _logger.LogInformation($"Message content: {messageContent}");
             try
             {
-                shortCircuitMsg = JsonConvert.DeserializeObject<ShortCircuitMsg>(messageContent);
+                shortCircuitMsg = JsonConvert.DeserializeObject<FuncTriggerMsg>(messageContent);
                 _logger.LogInformation($"Deserialized message for function: {shortCircuitMsg!.FunctionAppName}/{shortCircuitMsg!.FunctionName}");
 
             }
@@ -58,11 +69,11 @@ namespace FuncAppShortCircuitSvc
             try
             {
                 // Get the function app details
-                var functionApp = await Utils.WebAppConfigurator.GetFunctionAsync(subscriptionId!, shortCircuitMsg.RessourceGroupName,
+                var functionApp = await WebAppConfigurator.GetFunctionAsync(subscriptionId!, shortCircuitMsg.ResourceGroupName,
                     shortCircuitMsg.FunctionAppName, _logger);
 
                 // set the function status based on the message
-                await Utils.WebAppConfigurator.FunctionConditionAsync(functionApp, shortCircuitMsg.FunctionName,
+                await WebAppConfigurator.FunctionConditionAsync(functionApp, shortCircuitMsg.FunctionName,
                     shortCircuitMsg.DisableFunction, _logger);
 
                 // If disable function is true, republish the message to the queue if the disable period is greater than 0

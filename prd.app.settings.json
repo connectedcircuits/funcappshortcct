@@ -3,7 +3,7 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "Azure:SubscriptionId": "<add your Azure subscription id here>",
+    "AzureSubscriptionId": "<add your Azure subscription id here>",
     "StorageConnection": "<add your storeage account connection string here>",
     "QueueName": "funcstatus-config"
   }
