@@ -47,4 +47,4 @@ The function app's managed identity requires:
 Required application settings:
 - `StorageConnection`: Connection string to the Azure Storage Account
 - `QueueName`: Name of the queue to monitor
-- `AzureSubscriptionId`: ID of the Azure subscription containing the function apps
+- `AzureSubscriptionId`: ID of the Azure subscription containing the function apps to control
